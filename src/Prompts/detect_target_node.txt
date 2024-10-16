@@ -1,0 +1,20 @@
+<InstructionStructure>
+    <PrimaryTask>
+        The main goal is to identify the node related to the question asked by the user within the <Content> tag. 
+        For this, you can find a dictionary containing node information within the <Context> tag. 
+        Return the id information of the related node as the answer.
+    </PrimaryTask>
+    <Content>
+        Content: {content}
+    </Content>
+    <Context>
+        {context}
+    </Context>
+    <Output>
+        <<OUTPUT (must include ```json at the start of the response)>>
+        <<OUTPUT (must end with ```)>>
+    </Output>
+    <FormatInstructions>
+        {format_instructions}
+    </FormatInstructions>
+</InstructionStructure>

@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "langgraph-nl2kg"
+version = "0.1.0"
+description = ""
+authors = ["samitugal <tugalsami@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+isort = "^5.13.2"
+black = "^24.10.0"
+langchain = "^0.3.3"
+langchain-openai = "^0.2.2"
+langgraph = "^0.2.37"
+python-dotenv = "^1.0.1"
+fastapi = "^0.115.2"
+pydantic = "^2.9.2"
+tqdm = "^4.66.5"
+pandas = "^2.2.3"
+pydantic-settings = "^2.5.2"
+omegaconf = "^2.3.0"
+boto3 = "^1.35.40"
+langchain-community = "^0.3.2"
+neo4j = "^5.25.0"
+langchain-aws = "^0.2.2"
+networkx = "^3.4.1"
+pyvis = "^0.3.2"
+streamlit = "^1.39.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

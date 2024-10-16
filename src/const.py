@@ -1,0 +1,6 @@
+ROUTER_NODE = "router_node"
+KNOWLEDGE_GRAPH_GENERATOR_NODE = "knowledge_graph_generator_node"
+ANSWER_QUESTION_NODE = "answer_question_node"
+EXECUTE_CYPHER_QUERY_NODE = "execute_cypher_query_node"
+GRAPH_SANITY_CHECK_NODE = "graph_sanity_check_node"
+VISUALIZE_GRAPH_NODE = "visualize_graph_node"

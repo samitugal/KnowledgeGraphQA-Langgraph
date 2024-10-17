@@ -16,6 +16,7 @@ class CypherQueryList(BaseModel):
 
 class NodeDetectionModelOutput(BaseModel):
     node_id: str = Field(description="Node id information which related with question")
+    is_relevant: bool = Field(description="Is the node relevant to the question")
 
 
 class OperationType(str, Enum):

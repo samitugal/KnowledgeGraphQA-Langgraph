@@ -43,13 +43,22 @@ def decide_to_generate(state):
     router_output = state['operation_type']
     if router_output.operation_type == OperationType.ANSWER_QUESTION:
         print("-- Routing to Answer Question")
-        return ANSWER_QUESTION_NODE
+        return FIND_TARGET_NODE
     elif router_output.operation_type == OperationType.GENERATE_KNOWLEDGE_GRAPH:
         print("-- Routing to Knowledge Graph Generator")
         return KNOWLEDGE_GRAPH_GENERATOR_NODE
     else:
         print(f"-- Decision: Unknown operation type: {router_output.operation_type}")
         return END
+    
+def is_relevant(state):
+    is_relevant = state["is_relevant"]
+    if is_relevant:
+        print("-- Decision: Node is relevant")
+        return ANSWER_QUESTION_NODE
+    else:
+        print("-- Decision: Node is not relevant")
+        return WEB_SEARCH_NODE
 
 def graph_sanity_check(state):
     result = state["generation"]
@@ -68,13 +77,16 @@ workflow.add_node(ANSWER_QUESTION_NODE, lambda state: answer_question_node(state
 workflow.add_node(EXECUTE_CYPHER_QUERY_NODE, lambda state: execute_cypher_query_node(state, database))
 workflow.add_node(GRAPH_SANITY_CHECK_NODE, lambda state: graph_db_sanity_check_node(state, database))
 workflow.add_node(VISUALIZE_GRAPH_NODE, lambda state: visualize_graph_node(state, database))
+workflow.add_node(FIND_TARGET_NODE, lambda state: find_target_node(state, llm, database))
+workflow.add_node(WEB_SEARCH_NODE, web_search_node)
+workflow.add_node(GENERATION_NODE, lambda state: generation_node(state, llm))
 
 workflow.set_entry_point(ROUTER_NODE)
 workflow.add_conditional_edges(
     ROUTER_NODE,
     decide_to_generate,
     {
-        ANSWER_QUESTION_NODE: ANSWER_QUESTION_NODE,
+        FIND_TARGET_NODE: FIND_TARGET_NODE,
         KNOWLEDGE_GRAPH_GENERATOR_NODE: KNOWLEDGE_GRAPH_GENERATOR_NODE,
     },
 )
@@ -88,8 +100,19 @@ workflow.add_conditional_edges(
 )
 workflow.add_edge(KNOWLEDGE_GRAPH_GENERATOR_NODE, EXECUTE_CYPHER_QUERY_NODE)
 workflow.add_edge(EXECUTE_CYPHER_QUERY_NODE, GRAPH_SANITY_CHECK_NODE)
-workflow.add_edge(GRAPH_SANITY_CHECK_NODE, VISUALIZE_GRAPH_NODE)
 workflow.add_edge(VISUALIZE_GRAPH_NODE, END)
+
+workflow.add_conditional_edges(
+    FIND_TARGET_NODE,
+    is_relevant,
+    {
+        ANSWER_QUESTION_NODE: ANSWER_QUESTION_NODE,
+        WEB_SEARCH_NODE: WEB_SEARCH_NODE,
+    },
+)
+workflow.add_edge(WEB_SEARCH_NODE, GENERATION_NODE)
+workflow.add_edge(ANSWER_QUESTION_NODE, GENERATION_NODE)
+workflow.add_edge(GENERATION_NODE, END)
 
 app = workflow.compile()
 

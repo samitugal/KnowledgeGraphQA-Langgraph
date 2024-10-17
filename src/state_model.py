@@ -16,5 +16,6 @@ class GraphState(TypedDict):
 
     question: str
     generation: any
+    result: any
     operation_type: OperationType
     is_relevant: bool

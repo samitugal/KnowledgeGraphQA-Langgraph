@@ -2,7 +2,7 @@
     <PrimaryTask>
         The main goal is to identify the node related to the question asked by the user within the <Content> tag. 
         For this, you can find a dictionary containing node information within the <Context> tag. 
-        Return the id information of the related node as the answer.
+        Return the id information of the related node as the answer. If you cannot find the relevant node, return "null" and is_relevant as False.
     </PrimaryTask>
     <Content>
         Content: {content}

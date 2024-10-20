@@ -93,11 +93,7 @@ class LLMBase(LLMAbstractBase):
             ]
         ).partial(format_instructions=output_parser.get_format_instructions())
 
-        structured_llm_generator = self.client.with_structured_output(  
-            AnswerQuestionModelOutput
-        )
-
-        chain = answer_question_model_prompt | structured_llm_generator
+        chain = answer_question_model_prompt | self.client | output_parser
         response = chain.invoke({"context": context, "question": question})
         return response
 

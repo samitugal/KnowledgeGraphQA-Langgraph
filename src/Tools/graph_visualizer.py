@@ -49,9 +49,3 @@ def visualize_graph(graph_database: GraphDatabase):
             title=edge[2].get('label'), 
             label=edge[2].get('label')
         )
-
-    # Save and display the graph
-    net.show("graph.html")
-    st.write("Graph saved as graph.html")
-    st.components.v1.html(open("graph.html").read(), height=500)
-

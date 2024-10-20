@@ -12,5 +12,6 @@ Mehmet, frequently gave him advice about Zeynep, and Zeynep also knew Mehmet fro
 it was well-known that Professor Murat had an old friendship with Ayşe, a member of the university board.
 """
 
-result = app.invoke({"question": f"Zeynep meets with who according to database?"})
+result = app.invoke({"question": f"Give me a macaroni recipe."})
 
+print(result)

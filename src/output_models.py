@@ -15,9 +15,15 @@ class CypherQueryList(BaseModel):
 
 
 class NodeDetectionModelOutput(BaseModel):
-    node_id: str = Field(description="Node id information which related with question")
-    is_relevant: bool = Field(description="Is the node relevant to the question")
+    node_id: Optional[str] = Field(None, description="Node id information which related with question")
+    is_relevant: Optional[bool] = Field(None, description="Is the node relevant to the question")
 
+class GenerationModelOutput(BaseModel):
+    answer: str = Field(description="Answer to the question")
+
+class AnswerQuestionModelOutput(BaseModel):
+    answer: str = Field(description="Answer to the question")
+    success: bool = Field(description="If model sure about the answer")
 
 class OperationType(str, Enum):
     GENERATE_KNOWLEDGE_GRAPH = "generate_knowledge_graph"
@@ -28,7 +34,6 @@ class RouterModelOutput(BaseModel):
     operation_type: OperationType = Field(
         description="Type of operation to be performed"
     )
-
 
 @dataclass
 class Answer:

@@ -122,4 +122,4 @@ if __name__ == "__main__":
     config = MainConfig.from_file("configs/GraphDatabase/neo4j.yaml")
     print(config)
     db = Neo4jDatabase(config)
-    print(db.sanity_check())
+    print(db.list_n_degree_nodes("4:f3f3585e-62e3-4390-b402-ccfa4e8ab6cb:9", 2))

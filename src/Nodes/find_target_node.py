@@ -12,4 +12,6 @@ def find_target_node(state: GraphState, pipeline: Pipeline, database: DatabaseBa
 
     result = pipeline.detect_target_node(content= question, graphdb_nodes=database.list_nodes_and_properties())
 
+    print(result)
+
     return {"result": result.node_id, "is_relevant": result.is_relevant}

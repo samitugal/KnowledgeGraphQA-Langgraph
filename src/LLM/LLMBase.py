@@ -4,6 +4,7 @@ from typing import Any, Dict, List, TypeVar
 from dotenv import load_dotenv
 from langchain.prompts.prompt import PromptTemplate
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain.output_parsers import StructuredOutputParser
 from pydantic import BaseModel
 
 from ..output_models import *
@@ -67,18 +68,51 @@ class LLMBase(LLMAbstractBase):
         The function returns the detected target node.
         """
         target_node_template = load_prompt("detect_target_node")
-        structured_llm_generator = self.client.with_structured_output(
-            NodeDetectionModelOutput
-        )
+        output_parser = PydanticOutputParser(pydantic_object=NodeDetectionModelOutput)
         target_node_prompt = ChatPromptTemplate.from_messages(
             [
                 ("system", target_node_template),
-                (
-                    "human",
-                    "The content is {content} \\n\\n The graphs are {graphdb_nodes}",
-                ),
+                ("human", "The content is {content}"),
+                ("human", "The graphs are {graphdb_nodes}"),
+                ("human", "Format the output as follows:\n{format_instructions}")
             ]
+        ).partial(format_instructions=output_parser.get_format_instructions())
+        chain = target_node_prompt | self.client | output_parser
+        response = chain.invoke({"content": content, "graphdb_nodes": str(graphdb_nodes)})
+        return response
+    
+    def answer_question_model(self, context: str, question: str) -> AnswerQuestionModelOutput:
+        answer_question_model_template = load_prompt("answer_question_model")
+        output_parser = PydanticOutputParser(pydantic_object=AnswerQuestionModelOutput)
+        answer_question_model_prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", answer_question_model_template),
+                ("human", "{context}"),
+                ("human", "{question}"),
+                ("human", "Format the output as follows:\n{format_instructions}")
+            ]
+        ).partial(format_instructions=output_parser.get_format_instructions())
+
+        structured_llm_generator = self.client.with_structured_output(  
+            AnswerQuestionModelOutput
         )
-        chain = target_node_prompt | structured_llm_generator
-        response = chain.invoke({"content": content, "graphdb_nodes": graphdb_nodes})
+
+        chain = answer_question_model_prompt | structured_llm_generator
+        response = chain.invoke({"context": context, "question": question})
+        return response
+
+    def generation_model(self, context: str, question: str) -> GenerationModelOutput:
+        generation_model_template = load_prompt("generation_model")
+        output_parser = PydanticOutputParser(pydantic_object=GenerationModelOutput)
+        generation_model_prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", generation_model_template),
+                ("human", "{context}"),
+                ("human", "{question}"),
+                ("human", "Format the output as follows:\n{format_instructions}")
+            ]
+        ).partial(format_instructions=output_parser.get_format_instructions())
+
+        chain = generation_model_prompt | self.client | output_parser
+        response = chain.invoke({"context": context, "question": question})
         return response

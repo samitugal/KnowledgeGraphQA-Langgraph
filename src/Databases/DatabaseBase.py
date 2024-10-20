@@ -20,6 +20,10 @@ class DatabaseBase(ABC):
         pass
 
     @abstractmethod
+    def list_n_degree_nodes(self, node_id: str, degree_count: int):
+        pass
+
+    @abstractmethod
     def disconnect(self):
         pass
 

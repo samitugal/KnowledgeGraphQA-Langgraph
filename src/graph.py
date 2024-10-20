@@ -53,8 +53,10 @@ def decide_to_generate(state):
     
 def is_relevant(state):
     is_relevant = state["is_relevant"]
+    related_node_id = state["result"]
+
     if is_relevant:
-        print("-- Decision: Node is relevant")
+        print(f"-- Decision: Node is relevant: {related_node_id}")
         return ANSWER_QUESTION_NODE
     else:
         print("-- Decision: Node is not relevant")
@@ -73,7 +75,7 @@ workflow = StateGraph(GraphState)
 
 workflow.add_node(ROUTER_NODE, lambda state: router_node(state, llm))
 workflow.add_node(KNOWLEDGE_GRAPH_GENERATOR_NODE, lambda state: knowledge_graph_generator_node(state, llm))
-workflow.add_node(ANSWER_QUESTION_NODE, lambda state: answer_question_node(state, llm))
+workflow.add_node(ANSWER_QUESTION_NODE, lambda state: answer_question_node(state, llm, database))
 workflow.add_node(EXECUTE_CYPHER_QUERY_NODE, lambda state: execute_cypher_query_node(state, database))
 workflow.add_node(GRAPH_SANITY_CHECK_NODE, lambda state: graph_db_sanity_check_node(state, database))
 workflow.add_node(VISUALIZE_GRAPH_NODE, lambda state: visualize_graph_node(state, database))

@@ -12,3 +12,11 @@ class LLMAbstractBase(ABC):
     @abstractmethod
     def router_model(self, user_request: str) -> RouterModelOutput:
         pass
+
+    @abstractmethod
+    def answer_question_model(self, context: str, question: str) -> AnswerQuestionModelOutput:
+        pass
+
+    @abstractmethod
+    def detect_target_node(self, content: str, graphdb_nodes: List[Dict[str, Any]]) -> NodeDetectionModelOutput:
+        pass

@@ -1,12 +1,16 @@
 from typing import Any, Dict
 
+from src.LLM.Pipeline import Pipeline
 from src.state_model import GraphState
 
-def generation_node(state: GraphState) -> Dict[str, Any]:
-    print("Generating...")
+def generation_node(state: GraphState, pipeline: Pipeline) -> Dict[str, Any]:
+    print("Generating Results...")
 
     question = state["question"]
-    documents = state["documents"]
+    results = state["result"]
 
-    #result = generation_chain.invoke({"context": documents, "question": question})
-    #return {"documents": documents, "question": question, "generation": result}
+    result = pipeline.generation_model(context=results, question=question)
+
+    return {"result": result, "question": question}
+
+

@@ -1,0 +1,10 @@
+You are a helpful assistant that can answer questions based on the given context.
+
+{context}
+
+Question: {question}
+
+Please provide your answer in JSON format with an 'answer' field. For example:
+
+"answer": "Your answer to the question goes here."
+

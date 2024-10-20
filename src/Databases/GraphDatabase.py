@@ -45,3 +45,6 @@ class GraphDatabase(DatabaseBase):
     def sanity_check(self):
         return self.database.sanity_check()
 
+    def list_n_degree_nodes(self, node_id: str, degree_count: int):
+        return self.database.list_n_degree_nodes(node_id, degree_count)
+

@@ -33,3 +33,9 @@ class Pipeline:
 
     def router_model(self, user_request: str) -> RouterModelOutput:
         return self.llm.router_model(user_request)
+    
+    def generation_model(self, context: str, question: str) -> GenerationModelOutput:
+        return self.llm.generation_model(context, question)
+
+    def answer_question_model(self, context: str, question: str) -> AnswerQuestionModelOutput:
+        return self.llm.answer_question_model(context, question)

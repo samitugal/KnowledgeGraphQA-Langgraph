@@ -222,3 +222,8 @@ If you encounter any bugs or have suggestions for improvements, please open an i
 Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
 
 Thank you for your interest in contributing to our AI-Powered Knowledge Graph and Question Answering System!
+
+### Knowledge Graph Generation
+![image](https://github.com/user-attachments/assets/3dbe42c6-7cc8-46b2-8307-a24a64eac995)
+
+*This image shows the process of generating a knowledge graph from input text.*

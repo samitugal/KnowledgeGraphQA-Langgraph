@@ -1,15 +1,30 @@
-# Use the official Neo4j image as the base
-FROM neo4j:latest
+# Use Python base image
+FROM python:3.11-slim
 
-# Set environment variables (optional)
-ENV NEO4J_AUTH=neo4j/password123
+# Set working directory
+WORKDIR /app
 
-# Expose the necessary ports
-EXPOSE 7474 7473 7687
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set the data directory (optional)
-# VOLUME /data
+# Install Poetry
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
-# Set the default command to run when starting the container
-CMD ["neo4j"]
+# Copy project files
+COPY pyproject.toml poetry.lock ./
+COPY src/ ./src/
+COPY configs/ ./configs/
 
+# Install dependencies
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi
+
+# Set environment variables
+ENV PYTHONPATH=/app
+ENV LANGFUSE_HOST=http://langfuse:3000
+
+# Command to run the application
+CMD ["python", "src/main.py"]

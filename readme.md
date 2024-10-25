@@ -231,3 +231,6 @@ Thank you for your interest in contributing to our AI-Powered Knowledge Graph an
 ### Monitoring Utility with Langfuse
 
 The system includes a monitoring utility that leverages Langfuse to track and analyze the performance of the knowledge graph generation and question answering processes. This utility provides real-time insights into system performance, allowing for quick identification and resolution of any issues that may arise.
+
+![image](https://github.com/user-attachments/assets/9e8b7048-3a17-445c-b85f-1525733f3102)
+

@@ -1,6 +1,9 @@
+import os
 from dotenv import load_dotenv
 from langgraph.graph import END, StateGraph
 from pydantic_settings import BaseSettings
+from langfuse.callback import CallbackHandler
+from langchain_core.messages import HumanMessage
 
 from src.const import *
 from src.ContentProvider.content_provider import ContentProvider
@@ -36,6 +39,12 @@ print(f"Using config from {envvars.LLM_CONFIG_PATH}")
 content = ContentProvider()
 llm = Pipeline.new_instance_from_config(config=llm_config)
 database = GraphDatabase.new_instance_from_config(config=database_config)
+
+langfuse_handler = CallbackHandler(
+    public_key=os.getenv("LANGFUSE_PUBLIC_KEY"),
+    secret_key=os.getenv("LANGFUSE_SECRET_KEY"),
+    host=os.getenv("LANGFUSE_HOST", os.getenv("LANGFUSE_HOST_LOCAL"))
+)
 
 
 def decide_to_generate(state):

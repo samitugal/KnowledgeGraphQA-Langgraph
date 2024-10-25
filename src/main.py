@@ -1,4 +1,5 @@
 from src.graph import app
+from langfuse.utils.langfuse_singleton import LangfuseSingleton # type: ignore
 from src.Tools import visualize_graph
 from src.Databases.GraphDatabase import GraphDatabase
 from src.Databases.config_defs import MainConfig
@@ -12,6 +13,6 @@ Mehmet, frequently gave him advice about Zeynep, and Zeynep also knew Mehmet fro
 it was well-known that Professor Murat had an old friendship with Ayşe, a member of the university board.
 """
 
-result = app.invoke({"question": f"Give me a macaroni recipe."})
+result = app.invoke({"question": f"Generate a knowledge graph for the following content: {test_content}"})
 
 print(result)

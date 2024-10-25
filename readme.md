@@ -222,3 +222,12 @@ If you encounter any bugs or have suggestions for improvements, please open an i
 Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
 
 Thank you for your interest in contributing to our AI-Powered Knowledge Graph and Question Answering System!
+
+### Knowledge Graph Generation
+
+![Knowledge Graph Generation](images/knowledge_graph_generation.png)
+*This image shows the process of generating a knowledge graph from input text.*
+
+### Monitoring Utility with Langfuse
+
+The system includes a monitoring utility that leverages Langfuse to track and analyze the performance of the knowledge graph generation and question answering processes. This utility provides real-time insights into system performance, allowing for quick identification and resolution of any issues that may arise.
